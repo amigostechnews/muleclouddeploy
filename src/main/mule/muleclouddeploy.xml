@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bc43efe0-3d7b-4979-9d88-1b1ee9317243" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="muleclouddeployFlow" doc:id="4aea1344-3907-4692-961e-8c8a279fba48" >
+		<http:listener doc:name="Listener" doc:id="fad9efb1-72cc-41c4-975c-925ae6468f13" config-ref="HTTP_Listener_config" path="mulecloud"/>
+		<set-variable value="E-Pragati" doc:name="Set Variable" doc:id="a02117c7-e930-43ce-9a48-5775154287c3" variableName="frist"/>
+		<set-variable value="E-Highway" doc:name="Set Variable" doc:id="3d20c62c-96ff-4f41-acf2-ffe987bccbff" variableName="second"/>
+		<ee:transform doc:name="Transform Message" doc:id="3ecd2aef-01dc-4ba2-9544-8c081e0bd210" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+vars.frist ++ vars.second]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="de1b59cd-a6e3-464e-adc8-381bf7df7409" />
+	</flow>
+</mule>
